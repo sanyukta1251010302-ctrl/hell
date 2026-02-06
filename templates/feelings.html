@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feelings Quiz</title>
+    <style>
+        body { 
+            font-family: Arial; 
+            text-align: center; 
+            margin-top: 50px; 
+            background: linear-gradient(to right, #10306f, #808bb0);
+            color: white;
+        }
+        .container { max-width: 500px; margin: auto; padding: 20px; }
+        h1 { color: white; margin-bottom: 30px; }
+        .quiz-container { 
+            background: rgba(255,255,255,0.1); 
+            padding: 30px; 
+            border-radius: 20px; 
+            margin: 20px 0;
+        }
+        .question { font-size: 24px; margin: 30px 0; }
+        .yesno-btn, .next-btn { 
+            width: 120px; 
+            height: 60px; 
+            margin: 10px; 
+            font-size: 20px; 
+            border: none; 
+            border-radius: 15px; 
+            cursor: pointer; 
+            color: white;
+        }
+        .yes-btn { background: #0c457a; }
+        .no-btn { background: #0c457a; }
+        .next-btn { 
+            background: #0c457a; 
+            width: 150px; 
+            display: none;
+        }
+        .response { 
+            margin-top: 20px; 
+            padding: 20px; 
+            background: rgba(255,255,255,0.2); 
+            border-radius: 15px; 
+            font-size: 18px; 
+            display: none;
+        }
+        .progress { margin: 20px 0; font-size: 18px; }
+        .logout-btn { 
+            background: #0c457a; 
+            color: white; 
+            padding: 15px 30px; 
+            border: none; 
+            border-radius: 25px; 
+            cursor: pointer; 
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Do you mind or do you not?</h1>
+        
+        <div class="quiz-container">
+            <div class="progress" id="currentQ">Question 1/5</div>
+            <div class="question" id="question">Do you feel butterflies when thinking of me?</div>
+            
+            <div id="yesno-buttons">
+                <button class="yesno-btn yes-btn" onclick="selectAnswer('yes')">YES</button>
+                <button class="yesno-btn no-btn" onclick="selectAnswer('no')">NO</button>
+            </div>
+            
+            <div id="answer-response" class="response"></div>
+            <button class="next-btn" id="next-button" onclick="goNext()">next...hehehe</button>
+        </div>
+        
+        <a href="{{ url_for('logout') }}">
+            <button class="logout-btn">don't click or else you will leave me!!</button>
+        </a>
+    </div>
+
+    <script>
+        let questionNum = 0;
+        const totalQuestions = 5;
+        
+        const questions = [
+            "Do you feel butterflies when thinking of me?",
+            "Does my smile make your day better?",
+            "Would you choose me in every lifetime?",
+            "Do you miss me when I'm not around?",
+            "Am I your favorite person?"
+        ];
+        
+        const yesAnswers = [
+            " That's exactly how I feel too!",
+            " Your heart knows mine perfectly!",
+            " We're connected on another level!",
+            " My feelings match yours completely!",
+            " Soulmates think alike!"
+        ];
+        
+        const noAnswers = [
+            " Are you sure? My heart says yes!",
+            " Maybe you need time to feel it...",
+            " Deep down, I know it's there!",
+            " Okay wow, I will just miss you extra then!!",
+            " Wait till you feel what I feel!"
+        ];
+        
+        function selectAnswer(choice) {
+            // Hide YES/NO buttons
+            document.getElementById('yesno-buttons').style.display = 'none';
+            
+            // Show response
+            const response = choice === 'yes' ? yesAnswers[questionNum] : noAnswers[questionNum];
+            document.getElementById('answer-response').innerHTML = response;
+            document.getElementById('answer-response').style.display = 'block';
+            
+            // Show NEXT button
+            document.getElementById('next-button').style.display = 'inline-block';
+        }
+        
+        function goNext() {
+            questionNum++;
+            
+            if (questionNum < totalQuestions) {
+                // Load next question
+                document.getElementById('question').textContent = questions[questionNum];
+                document.getElementById('currentQ').textContent = `Question ${questionNum + 1}/5`;
+                
+                // Show YES/NO buttons again
+                document.getElementById('yesno-buttons').style.display = 'block';
+                
+                // Hide response and next
+                document.getElementById('answer-response').style.display = 'none';
+                document.getElementById('next-button').style.display = 'none';
+                
+            } else {
+    // Quiz finished - SHOW CONFESSION BUTTON
+            document.getElementById('question').innerHTML = 'Quiz Complete!!!';
+            document.getElementById('currentQ').textContent = 'good to go..';
+            document.getElementById('answer-response').innerHTML = "The fun ends!! onto the next part---><br><br><button onclick=\"window.location.href='/confession'\" style=\"background: linear-gradient(45deg, #0c457a) ; color: white; padding: 15px 30px; border: none; border-radius: 30px; font-size: 18px; cursor: pointer;\"> I Want to Tell You Something... </button>";
+            document.getElementById('answer-response').style.display = 'block';
+            document.getElementById('next-button').style.display = 'none';
+            }
+
+        }
+    </script>
+</body>
+</html>

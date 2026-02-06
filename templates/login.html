@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Who Are You?</title>
+    <style>
+        body { 
+            font-family: Arial; 
+            text-align: center; 
+            margin-top: 250px; 
+            background: linear-gradient(to right, #10306f, #808bb0);
+            transition: all 0.3s ease;  /* Smooth blink transition */
+        }
+        body.blink-red {
+            background: linear-gradient(to right, #ff4444, #cc0000) !important;
+            animation: blink 0.6s 3;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        form { 
+            max-width: 300px; 
+            margin: auto; 
+            padding: 20px; 
+            background: rgb(172, 172, 172); 
+            border-radius: 20px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+        }
+        input[type="text"] { 
+            width: 80%; 
+            padding: 10px; 
+            margin: 10px; 
+            border: 1px solid #97acd7; 
+            border-radius: 5px; 
+        }
+        button { 
+            background: #06627b; 
+            color: rgb(16, 7, 24); 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+        .error-red { 
+            color: white !important; 
+            background: #3c3e4d; 
+            padding: 15px; 
+            border-radius: 10px; 
+            margin-top: 15px; 
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color: white;">KNOCK KNOCK!! YOU?</h1>
+    <form method="POST">
+        <input type="text" name="name" placeholder="drop your name:)" required autofocus>
+        <br><button type="submit">are you sure? think twice!!</button>
+    </form>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {% if category == 'error' %}
+                    <div class="error-red">{{ message }}</div>
+                    <script>
+                        document.body.classList.add('blink-red');
+                        setTimeout(() => document.body.classList.remove('blink-red'), 2000);
+                    </script>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</body>
+</html>
+
